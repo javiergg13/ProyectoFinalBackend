@@ -3,7 +3,9 @@ const router = Router();
 
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const userContorller = require('../controllers/users.controllers.js');
+const userController = require('../controllers/users.controllers.js');
+const pcController = require('../controllers/pcs.controllers.js');
+const componentController = require('../controllers/components.controllers.js');
 
 router.post('/register', async (req, res) => {
     // Obtener datos del usuario
@@ -41,66 +43,21 @@ router.post('/login', async (req, res) => {
     return res.status(200).json({token});
 });
 
-router.get('/pcs', (req, res) => {
-    res.json([
-        {
-            _id: 1,
-            name: 'Task one',
-            description: 'lorem ipsum',
-            date: "2022-05-11T11:36:52.561Z"
-        },
-        {
-            _id: 2,
-            name: 'Task two',
-            description: 'lorem ipsum',
-            date: "2022-05-11T11:36:52.561Z"
-        },
-        {
-            _id: 3,
-            name: 'Task three',
-            description: 'lorem ipsum',
-            date: "2022-05-11T11:36:52.561Z"
-        }
-    ])
-});
+router.get('/pcs', pcController.getPcs);
 
-router.get('/usuarios', verifyToken, userContorller.getUsers);
+router.get('/pcs/:tipo', pcController.getPc);
 
-router.get('/usuarios/:email', verifyToken, userContorller.getUser);
+router.get('/usuarios', verifyToken, userController.getUsers);
 
-router.put('/usuarios/:email', verifyToken, userContorller.editUser);
+router.get('/usuarios/:email', verifyToken, userController.getUser);
 
-router.delete('/usuarios/:email', verifyToken, userContorller.deleteUser);
+router.put('/usuarios/:email', verifyToken, userController.editUser);
 
+router.delete('/usuarios/:email', verifyToken, userController.deleteUser);
 
-router.get('/componentes', (req, res) => {
-    res.json([
-        {
-            _id: 1,
-            name: 'Task one',
-            description: 'lorem ipsum',
-            date: "2022-05-11T11:36:52.561Z"
-        },
-        {
-            _id: 2,
-            name: 'Task two',
-            description: 'lorem ipsum',
-            date: "2022-05-11T11:36:52.561Z"
-        },
-        {
-            _id: 3,
-            name: 'Task three',
-            description: 'lorem ipsum',
-            date: "2022-05-11T11:36:52.561Z"
-        },
-        {
-            _id: 4,
-            name: 'Task four',
-            description: 'lorem ipsum',
-            date: "2022-05-11T11:36:52.561Z"
-        }
-    ])
-})
+router.get('/componentes', componentController.getComponentes);
+
+router.get('/componentes/:tipo', componentController.getComponente);
 
 module.exports = router;
 

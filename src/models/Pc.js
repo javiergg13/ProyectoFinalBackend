@@ -1,11 +1,14 @@
 const {Schema, model} = require('mongoose');
 
+const Componente = require('./Componente')
+
 const pcSchema = new Schema({
-    id: String,
-    precio: Number,
-    descripcion: String,
+    precio: {type: Number, required: true},
+    descripcion: {type: String, required: true},
+    componentes: [String]
 }, {
-    timestamps: true
+    timestamps: true,
+    versionKey: false
 });
 
 module.exports = model('Pc', pcSchema);

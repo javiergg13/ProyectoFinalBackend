@@ -4,6 +4,7 @@ const User = require('../models/User')
 
 userContorller.getUsers = async (req, res) => {
     const users = await User.find();
+    console.log(users)
     res.json(users);
 }
 
@@ -19,7 +20,7 @@ userContorller.editUser = async (req, res) => {
 
 userContorller.deleteUser = async (req, res) => {
     await User.findOneAndDelete({email: req.params.email});
-res.json({status: 'Usuario eliminado'})
+    res.json({status: 'Usuario eliminado'})
 }
 
 module.exports = userContorller;
