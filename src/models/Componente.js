@@ -13,22 +13,22 @@ const componenteSchema = new Schema({...propiedadesGenericas}, {
     versionKey: false
 });
 
-// const gpuSchema = new Schema({
-//     ...componenteSchema,
-//     tecnologia: {type: String, required: true},
-//     memoria_virtual: {type: Number, required: true},
-//     nucleos_cuda: {type: Number, required: true},
-//     nucleos_rt: {type: Number, required: true},
-//     nucleos_tensor: {type: Number, required: true},
-//     frecuencia_base: {type: Number, required: true},
-//     frecuencia_turbo: {type: Number, required: true},
-//     tdp: {type: Number, required: true},
-//     ancho: {type: Number, required: true},
-//     alto: {type: Number, required: true}
-// }, {
-//     timestamps: true,
-//     versionKey: false
-// });
+const gpuSchema = new Schema({
+    ...propiedadesGenericas,
+    tecnologia: {type: String, required: true},
+    memoria_virtual: {type: Number, required: true},
+    nucleos_cuda: {type: Number, required: true},
+    nucleos_rt: {type: Number, required: true},
+    nucleos_tensor: {type: Number, required: true},
+    frecuencia_base: {type: Number, required: true},
+    frecuencia_turbo: {type: Number, required: true},
+    tdp: {type: Number, required: true},
+    ancho: {type: Number, required: true},
+    alto: {type: Number, required: true}
+}, {
+    timestamps: true,
+    versionKey: false
+});
 
 // const cpuSchema = new Schema({
 //     ...componenteSchema,
