@@ -20,7 +20,6 @@ router.post('/register', async (req, res) => {
             msg: 'Usuario ya existe'
         })
     }
-    console.log(req.body)
     // Crear y guardar en bdd el usuario
     const newUser = new User({email: email, password: password, nombre: nombre, apellidos: apellidos, cp: cp, telefono: telefono});
     await newUser.save();
@@ -35,7 +34,6 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({email: email})
     if (!user) return res.status(401).send("El email introducido no existe");
-    console.log(user)
     if (user.password !== password) return res.status(401).send('Contraseña erronea');
 
     const token = jwt.sign({_id: user._id}, 'secretkey');

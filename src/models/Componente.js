@@ -1,7 +1,7 @@
 const {Schema, model} = require('mongoose');
 
 const propiedadesGenericas = {
-    tipo_componente: {type: String, required: true},
+    tipo: {type: String, required: true},
     descripcion: {type: String, required: true},
     precio: {type: Number, required: true},
     modelo: {type: String, required: true},

@@ -8,9 +8,9 @@ componentContorller.getComponentes = async (req, res) => {
 }
 
 componentContorller.getComponente = async (req, res) => {
-    const componente = await Componente.findOne({tipo: req.params.tipo});
-    console.log(req.params)
-    res.send(componente);
+    const componente = await Componente.find({tipo: req.params.tipo});
+    console.log(req.params.tipo)
+    res.json(componente);
 }
 
 module.exports = componentContorller;
