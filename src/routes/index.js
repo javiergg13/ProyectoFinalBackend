@@ -9,7 +9,7 @@ const componentController = require('../controllers/components.controllers.js');
 
 router.post('/register', async (req, res) => {
     // Obtener datos del usuario
-    const { email, password, nombre, apellidos, cp, telefono } = req.body;
+    const { email, password, nombre, apellidos, cp, telefono, pc_favoritos, componente_favoritos } = req.body;
 
     // Verificar que el usuario no exista
     let user = await User.findOne({email}) || null;
@@ -20,21 +20,35 @@ router.post('/register', async (req, res) => {
             msg: 'Usuario ya existe'
         })
     }
-    // Crear y guardar en bdd el usuario
-    const newUser = new User({email: email, password: password, nombre: nombre, apellidos: apellidos, cp: cp, telefono: telefono});
-    await newUser.save();
     
     // Crear token
     const token = jwt.sign({_id: newUser._id}, 'secretkey');
     res.status(200).json({token});
+
+    // Crear y guardar en bdd el usuario
+    const newUser = new User({email: email, password: password, nombre: nombre, apellidos: apellidos, cp: cp, telefono: telefono, pc_favoritos: pc_favoritos, componente_favoritos: componente_favoritos});
+    await newUser.save();
+
+    return res.json({
+        succes:true,
+        msg: 'Usuario añadido correctamente'
+    })
 });
 
 router.post('/login', async (req, res) => {
 
     const { email, password } = req.body;
     const user = await User.findOne({email: email})
-    if (!user) return res.status(401).send("El email introducido no existe");
-    if (user.password !== password) return res.status(401).send('Contraseña erronea');
+
+    if (!user) return res.status(401).json({
+        succes: false,
+        msg: 'El email o la contraseña no se corresponden con ningún usuario existente'
+    });
+
+    if (user.password !== password) return res.status(401).json({
+        succes: false,
+        msg: 'El email o la contraseña no se corresponden con ningún usuario existente'
+    });
 
     const token = jwt.sign({_id: user._id}, 'secretkey');
 
