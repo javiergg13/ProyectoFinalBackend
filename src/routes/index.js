@@ -20,19 +20,14 @@ router.post('/register', async (req, res) => {
             msg: 'Usuario ya existe'
         })
     }
-    
-    // Crear token
-    const token = jwt.sign({_id: newUser._id}, 'secretkey');
-    res.status(200).json({token});
 
     // Crear y guardar en bdd el usuario
     const newUser = new User({email: email, password: password, nombre: nombre, apellidos: apellidos, cp: cp, telefono: telefono, pc_favoritos: pc_favoritos, componente_favoritos: componente_favoritos});
     await newUser.save();
 
-    return res.json({
-        succes:true,
-        msg: 'Usuario añadido correctamente'
-    })
+    // Crear token
+    const token = jwt.sign({_id: newUser._id}, 'secretkey');
+    res.status(200).json({token});
 });
 
 router.post('/login', async (req, res) => {

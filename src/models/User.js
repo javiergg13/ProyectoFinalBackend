@@ -9,9 +9,7 @@ const userSchema = new Schema({
     password: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     cp: {type: Number, required: true},
-    telefono: {type: Number, required: true},
-    pc_favoritos: {type: [String]},
-    componente_favoritos: {type: [String]}
+    telefono: {type: Number, required: true}
 }, {
     timestamps: true,
     versionKey: false
