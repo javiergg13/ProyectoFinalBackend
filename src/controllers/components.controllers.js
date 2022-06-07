@@ -9,7 +9,6 @@ componentContorller.getComponentes = async (req, res) => {
 
 componentContorller.getComponente = async (req, res) => {
     const componente = await Componente.find({tipo: req.params.tipo});
-    console.log(req.params.tipo)
     res.json(componente);
 }
 
