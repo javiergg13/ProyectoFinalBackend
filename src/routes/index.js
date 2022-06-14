@@ -24,7 +24,7 @@ router.post('/register', async (req, res) => {
     }
 
     // Encriptar password
-    const passwordHash = await encrypt(password)
+    const passwordHash = encrypt(password)
 
     // Crear y guardar en bdd el usuario
     const newUser = new User({email: email, password: passwordHash, nombre: nombre, apellidos: apellidos, cp: cp, telefono: telefono, pc_favoritos: pc_favoritos, componente_favoritos: componente_favoritos});
@@ -45,9 +45,9 @@ router.post('/login', async (req, res) => {
         msg: 'El email o la contraseña no se corresponden con ningún usuario existente'
     });
 
-    const checkPassword = await compare(password, user.password)
+    const checkPassword = compare(password, user.password)
 
-    if (checkPassword) return res.status(401).json({
+    if (!checkPassword) return res.status(401).json({
         succes: false,
         msg: 'El email o la contraseña no se corresponden con ningún usuario existente'
     });
