@@ -1,9 +1,7 @@
 const {Router} = require('express');
 const router = Router();
 
-const CryptoJS = require('crypto-js')
-
-const clave = 'phamsfnUHYhbasf738';
+const { encrypt, compare } = require('../helpers/handleBcrypt')
 
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
@@ -17,7 +15,7 @@ router.post('/register', async (req, res) => {
 
     // Verificar que el usuario no exista
     let user = await User.findOne({email}) || null;
-
+    
     if(user !== null) {
         return res.json({
             succes: false,
@@ -25,8 +23,11 @@ router.post('/register', async (req, res) => {
         })
     }
 
+    // Encriptar password
+    const passwordHash = await encrypt(password)
+
     // Crear y guardar en bdd el usuario
-    const newUser = new User({email: email, password: CryptoJS.AES.encrypt(password.trim(), clave.trim()).toString(), nombre: nombre, apellidos: apellidos, cp: cp, telefono: telefono, pc_favoritos: pc_favoritos, componente_favoritos: componente_favoritos});
+    const newUser = new User({email: email, password: passwordHash, nombre: nombre, apellidos: apellidos, cp: cp, telefono: telefono, pc_favoritos: pc_favoritos, componente_favoritos: componente_favoritos});
     await newUser.save();
 
     // Crear token
@@ -44,7 +45,9 @@ router.post('/login', async (req, res) => {
         msg: 'El email o la contraseña no se corresponden con ningún usuario existente'
     });
 
-    if (CryptoJS.AES.decrypt(user.password.trim(), clave.trim()).toString(CryptoJS.enc.Utf8) !== password) return res.status(401).json({
+    const checkPassword = await compare(password, user.password)
+
+    if (checkPassword) return res.status(401).json({
         succes: false,
         msg: 'El email o la contraseña no se corresponden con ningún usuario existente'
     });
