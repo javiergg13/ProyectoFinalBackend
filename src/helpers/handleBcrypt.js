@@ -6,20 +6,16 @@ const encrypt = (textPlain) => {
     let arrayHash = texto.split(' ', textPlain.length)
     let finalHash = ''
     for(let i = 0; i < textPlain.length; i++){
-        arrayHash[i] = arrayHash[i] + textPlain.charAt(i)
+        arrayHash[i] += textPlain.charAt(i)
     }
     for(let hash of arrayHash){
-        finalHash = finalHash + cifrarCesar(hash)
+        finalHash += cifrarCesar(hash)
     }
     return finalHash
 }
 
 const compare = (passwordPlain, hashPassword) => {
-    if(hashPassword === encrypt(passwordPlain)){
-        return true
-    } else {
-        return false
-    }
+    return (hashPassword === encrypt(passwordPlain))
 }
 
 const cifrarCesar = (palabra) => {
@@ -28,7 +24,7 @@ const cifrarCesar = (palabra) => {
     for(let i = 0; i < palabra.length; i++){
         let letraPalabra = palabra.charAt(i)
         let posicionAlfhabet = alphabet.indexOf(letraPalabra)
-        palabraCifrada = palabraCifrada + alphabet.charAt(clave + posicionAlfhabet)
+        palabraCifrada += alphabet.charAt(clave + posicionAlfhabet)
     }
     return palabraCifrada;
 }
